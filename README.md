@@ -1,40 +1,109 @@
-# Backend API Store - from KOPLING to CVT
+# Backend API Store
 
-RESTful Backend API untuk aplikasi Store yang dibangun menggunakan **Node.js + Express.js + PostgreSQL**.
+RESTful Backend API untuk aplikasi e-commerce sederhana yang dibangun menggunakan **Node.js, Express.js, dan PostgreSQL**.
 
-Project ini dibuat sebagai backend service yang menyediakan:
+Project ini dibuat sebagai learning project sekaligus simulasi backend API untuk latihan:
 
+- REST API Development
+- PostgreSQL Database
+- Authentication & Authorization
+- JWT
+- Role-Based Access Control
+- API Testing
+- Database Testing
+- Test Automation
+- Code Quality
+- CI/CD
+
+> **Note:** Project ini tidak menggunakan Prisma. Database interaction dilakukan menggunakan package `pg`.
+
+---
+
+# 📌 Project Scope
+
+Fitur yang tersedia saat ini:
+
+- User Registration
+- User Login
+- JWT Authentication
+- Role-Based Authorization
 - User Management
-- Authentication menggunakan JWT
-- Role Authorization (`user` / `admin`)
 - Category Management
 - Product Management
+- Shopping Cart
 - PostgreSQL Database
 - Repository Pattern
-- Controller & Route Separation
-- Environment Configuration
+- Service Layer
+- Controller Layer
+- Jest & Supertest API Testing
+- ESLint
+- Prettier
+
+### Tidak termasuk
+
+Fitur berikut **tidak digunakan dalam project saat ini**:
+
+- Order
+- Checkout
+- Payment
+- Order History
 
 ---
 
-## 1. Tech Stack
+# 🛠️ Technology Stack
 
-| Technology | Purpose                         |
-| ---------- | ------------------------------- |
-| Node.js    | JavaScript Runtime              |
-| Express.js | Backend Web Framework           |
-| PostgreSQL | Relational Database             |
-| pg         | PostgreSQL Client untuk Node.js |
-| JWT        | Authentication                  |
-| bcrypt     | Password Hashing                |
-| dotenv     | Environment Configuration       |
-| ESLint     | Code Quality                    |
-| Prettier   | Code Formatting                 |
+| Technology   | Purpose               |
+| ------------ | --------------------- |
+| Node.js      | JavaScript Runtime    |
+| Express.js   | Backend Web Framework |
+| PostgreSQL   | Relational Database   |
+| pg           | PostgreSQL Driver     |
+| bcrypt       | Password Hashing      |
+| jsonwebtoken | JWT Authentication    |
+| Jest         | Testing Framework     |
+| Supertest    | API Testing           |
+| ESLint       | Code Quality          |
+| Prettier     | Code Formatting       |
+| pgAdmin      | PostgreSQL Management |
+| DBeaver      | Database Client       |
 
 ---
 
-# 2. Project Architecture
+# 📦 Dependencies
 
-Project menggunakan pemisahan layer agar lebih mudah dikembangkan dan di-maintain.
+Current dependencies:
+
+```text
+@eslint/js
+bcrypt
+bcryptjs
+dotenv
+eslint
+express
+jest
+jsonwebtoken
+pg
+prettier
+supertest
+```
+
+Project menggunakan **ES Modules**.
+
+Contoh:
+
+```javascript
+import express from 'express';
+```
+
+bukan:
+
+```javascript
+const express = require('express');
+```
+
+---
+
+# 📁 Project Structure
 
 ```text
 backend-api-store/
@@ -48,71 +117,106 @@ backend-api-store/
 │   │   ├── authController.js
 │   │   ├── categoryController.js
 │   │   ├── productController.js
-│   │   └── userController.js
+│   │   ├── userController.js
+│   │   └── cartController.js
 │   │
 │   ├── middleware/
 │   │   ├── authMiddleware.js
 │   │   └── roleMiddleware.js
 │   │
 │   ├── repositories/
+│   │   ├── auth.repository.js
 │   │   ├── category.repository.js
 │   │   ├── product.repository.js
-│   │   └── user.repository.js
+│   │   ├── user.repository.js
+│   │   └── cart.repository.js
 │   │
 │   ├── routes/
 │   │   ├── authRoutes.js
 │   │   ├── categoryRoutes.js
 │   │   ├── productRoutes.js
-│   │   └── userRoutes.js
+│   │   ├── userRoutes.js
+│   │   └── cartRoutes.js
+│   │
+│   ├── services/
+│   │   ├── auth.service.js
+│   │   ├── category.service.js
+│   │   ├── product.service.js
+│   │   └── cart.service.js
 │   │
 │   ├── scripts/
 │   │   └── hashPassword.js
 │   │
 │   └── server.js
 │
+├── database/
+│   ├── schema.sql
+│   └── seed.sql
+│
+├── tests/
+│   ├── auth/
+│   ├── categories/
+│   ├── products/
+│   ├── users/
+│   └── cart/
+│
 ├── .env
 ├── .env.example
 ├── .gitignore
 ├── eslint.config.js
-├── package-lock.json
+├── prettier.config.js
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
-### Architecture Flow
+---
+
+# 🏗️ Application Architecture
+
+Project menggunakan layered architecture:
 
 ```text
 Client
-   │
-   ▼
+  │
+  ▼
 Routes
-   │
-   ▼
+  │
+  ▼
 Middleware
-   │
-   ▼
+  │
+  ▼
 Controller
-   │
-   ▼
+  │
+  ▼
+Service
+  │
+  ▼
 Repository
-   │
-   ▼
+  │
+  ▼
 PostgreSQL
 ```
 
 Contoh request:
 
 ```text
-POST /api/auth/login
+POST /api/cart/items
         │
         ▼
-authRoutes.js
+cartRoutes.js
         │
         ▼
-authController.js
+authenticateToken
         │
         ▼
-user.repository.js
+cartController.js
+        │
+        ▼
+cart.service.js
+        │
+        ▼
+cart.repository.js
         │
         ▼
 PostgreSQL
@@ -120,41 +224,17 @@ PostgreSQL
 
 ---
 
-# 3. Prerequisites
+# 🗄️ Database
 
-Sebelum menjalankan project, pastikan sudah menginstall:
+Project menggunakan **PostgreSQL**.
 
-## Node.js
-
-Recommended menggunakan Node.js LTS.
-
-Check:
-
-```bash
-node --version
-```
-
-Contoh:
+Database yang digunakan:
 
 ```text
-v22.x.x
+backend_api
 ```
 
-Check npm:
-
-```bash
-npm --version
-```
-
----
-
-# 4. PostgreSQL
-
-Project menggunakan PostgreSQL sebagai database.
-
-Pastikan PostgreSQL sudah terinstall dan service PostgreSQL sedang berjalan.
-
-Tools yang dapat digunakan untuk mengelola database:
+Database dapat dikelola menggunakan:
 
 - pgAdmin
 - DBeaver
@@ -162,172 +242,51 @@ Tools yang dapat digunakan untuk mengelola database:
 
 ---
 
-# 5. Clone Repository
+# 📊 Database Schema
 
-Clone repository:
-
-```bash
-git clone <REPOSITORY_URL>
-```
-
-Masuk ke folder project:
-
-```bash
-cd backend-api-store
-```
-
-Contoh:
-
-```bash
-cd D:\backend-api-store
-```
-
----
-
-# 6. Install Dependencies
-
-Setelah clone repository, install semua dependency:
-
-```bash
-npm install
-```
-
-Jangan menjalankan:
-
-```bash
-npm install prisma @prisma/client
-```
-
-Project ini **tidak menggunakan Prisma**.
-
-Database connection menggunakan PostgreSQL driver (`pg`) secara langsung.
-
----
-
-# 7. Environment Configuration
-
-Project membutuhkan environment variable untuk konfigurasi database dan JWT.
-
-Buat file:
+Saat ini terdapat beberapa table utama:
 
 ```text
-.env
-```
-
-Contoh:
-
-```env
-PORT=3000
-
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=backend_api
-DB_USER=postgres
-DB_PASSWORD=your_password
-
-JWT_SECRET=your_super_secret_key
-JWT_EXPIRES_IN=1h
-```
-
-> Jangan commit `.env` ke Git.
-
----
-
-# 8. `.env.example`
-
-Repository harus menyediakan:
-
-```text
-.env.example
-```
-
-Contoh:
-
-```env
-PORT=3000
-
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=backend_api
-DB_USER=postgres
-DB_PASSWORD=
-
-JWT_SECRET=
-JWT_EXPIRES_IN=1h
-```
-
-Team member cukup membuat:
-
-```text
-.env
-```
-
-berdasarkan `.env.example`.
-
----
-
-# 9. Database Setup
-
-Buat database PostgreSQL.
-
-Contoh database:
-
-```text
-backend_api
-```
-
-Menggunakan pgAdmin:
-
-```text
-Servers
-└── PostgreSQL
-    └── Databases
-        └── backend_api
-```
-
-Atau menggunakan SQL:
-
-```sql
-CREATE DATABASE backend_api;
-```
-
----
-
-# 10. Database Tables
-
-Project menggunakan beberapa table utama:
-
-```text
-users
 categories
 products
+users
+carts
+cart_items
 ```
 
-Relasi:
+Relationship:
 
 ```text
 categories
-     │
-     │ 1
-     │
-     │
-     │ N
-   products
+    │
+    └──── products
+              │
+              └──── cart_items
+                       │
+                       └──── carts
+                              │
+                              └──── users
 ```
 
-Sedangkan:
+Secara sederhana:
 
 ```text
-users
+User
+ │
+ └── Cart
+      │
+      └── Cart Items
+             │
+             └── Product
+                    │
+                    └── Category
 ```
-
-digunakan untuk authentication dan authorization.
 
 ---
 
-# 11. Users Table
+# 👤 Users
 
-Contoh struktur:
+Struktur utama:
 
 ```text
 users
@@ -347,195 +306,40 @@ user
 admin
 ```
 
-Contoh:
+User yang melakukan registration akan otomatis mendapatkan:
 
 ```text
-id | name  | email              | role
----|-------|--------------------|------
-1  | John  | john@mail.com      | user
-2  | Admin | admin@mail.com     | admin
+role = user
 ```
 
----
+User tidak dapat menentukan role sendiri ketika melakukan registration.
 
-# 12. Categories Table
-
-Contoh struktur:
-
-```text
-categories
-├── id
-├── name
-├── description
-├── created_at
-└── updated_at
-```
-
----
-
-# 13. Products Table
-
-Contoh struktur:
-
-```text
-products
-├── id
-├── name
-├── description
-├── price
-├── stock
-├── category_id
-├── created_at
-└── updated_at
-```
-
-`category_id` merupakan foreign key menuju:
-
-```text
-categories.id
-```
-
----
-
-# 14. Database Connection
-
-Database connection terdapat di:
-
-```text
-src/config/database.js
-```
-
-Connection menggunakan PostgreSQL driver.
-
-Contoh konfigurasi:
-
-```javascript
-import pg from 'pg';
-
-const { Pool } = pg;
-
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-});
-
-export default pool;
-```
-
----
-
-# 15. Test Database Connection
-
-Saat server dijalankan, aplikasi akan melakukan pengecekan database connection.
-
-Jika berhasil:
-
-```text
-Database connected successfully
-Database time: ...
-Server running on http://localhost:3000
-```
-
-Jika gagal:
-
-```text
-Database connection failed
-```
-
-Periksa:
-
-- PostgreSQL service
-- DB_HOST
-- DB_PORT
-- DB_NAME
-- DB_USER
-- DB_PASSWORD
-
----
-
-# 16. Run Application
-
-Development mode:
-
-```bash
-npm run dev
-```
-
-Application akan berjalan di:
-
-```text
-http://localhost:3000
-```
-
-Health check:
-
-```http
-GET http://localhost:3000/
-```
-
-Response:
+Contoh request:
 
 ```json
 {
-  "success": true,
-  "message": "Backend API Store is running"
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Password123"
 }
 ```
 
----
+Akan menghasilkan user:
 
-# 17. Available NPM Scripts
-
-## Development
-
-```bash
-npm run dev
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "role": "user"
+}
 ```
 
-Menjalankan server menggunakan Node.js watch mode.
-
----
-
-## Start
-
-```bash
-npm start
-```
-
-Menjalankan server secara normal.
+Password tidak dikembalikan dalam response.
 
 ---
 
-## ESLint
-
-```bash
-npm run lint
-```
-
-Digunakan untuk melakukan pengecekan kualitas kode.
-
----
-
-## Prettier
-
-Format seluruh project:
-
-```bash
-npm run format
-```
-
-Check formatting:
-
-```bash
-npm run format:check
-```
-
----
-
-# 18. Authentication
+# 🔐 Authentication
 
 Authentication menggunakan:
 
@@ -543,34 +347,110 @@ Authentication menggunakan:
 JWT - JSON Web Token
 ```
 
-Flow login:
+Flow:
 
 ```text
-Client
-  │
-  │ POST /api/auth/login
-  ▼
-Auth Controller
-  │
-  ▼
-User Repository
-  │
-  ▼
-PostgreSQL
-  │
-  ▼
+Register
+   │
+   ▼
+Hash Password
+   │
+   ▼
+Save User
+   │
+   ▼
+Login
+   │
+   ▼
 Validate Password
-  │
-  ▼
+   │
+   ▼
 Generate JWT
-  │
-  ▼
-Return Token
+   │
+   ▼
+Client
+```
+
+Token digunakan untuk mengakses endpoint yang membutuhkan authentication.
+
+Header:
+
+```http
+Authorization: Bearer <JWT_TOKEN>
 ```
 
 ---
 
-# 19. Login API
+# 🔑 JWT Secret
+
+JWT menggunakan environment variable:
+
+```env
+JWT_SECRET=backend-api-store-super-secret-key
+```
+
+`JWT_SECRET` digunakan untuk:
+
+- Sign JWT
+- Verify JWT
+- Memastikan token tidak dimanipulasi
+
+Contoh payload JWT:
+
+```javascript
+{
+  id: user.id,
+  email: user.email,
+  role: user.role
+}
+```
+
+> Jangan commit `.env` ke repository.
+
+---
+
+# 📝 Registration API
+
+Endpoint:
+
+```http
+POST /api/auth/register
+```
+
+Request:
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Password123"
+}
+```
+
+Expected response:
+
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user"
+  }
+}
+```
+
+Role otomatis:
+
+```text
+user
+```
+
+---
+
+# 🔐 Login API
 
 Endpoint:
 
@@ -582,12 +462,12 @@ Request:
 
 ```json
 {
-  "email": "admin@mail.com",
+  "email": "john@example.com",
   "password": "Password123"
 }
 ```
 
-Successful response:
+Response:
 
 ```json
 {
@@ -599,62 +479,17 @@ Successful response:
 }
 ```
 
----
-
-# 20. Using JWT Token
-
-Setelah login berhasil, copy token.
-
-Gunakan token pada endpoint yang membutuhkan authentication.
-
-Header:
-
-```http
-Authorization: Bearer <JWT_TOKEN>
-```
+Token digunakan untuk endpoint yang membutuhkan authentication.
 
 Contoh:
 
 ```http
-Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+Authorization: Bearer JWT_TOKEN
 ```
 
 ---
 
-# 21. JWT Middleware
-
-Endpoint yang membutuhkan authentication akan melewati:
-
-```text
-authMiddleware.js
-```
-
-Flow:
-
-```text
-Request
-   │
-   ▼
-Authorization Header
-   │
-   ▼
-Extract JWT
-   │
-   ▼
-Verify JWT
-   │
-   ├── Invalid → 401 Unauthorized
-   │
-   ▼
-Valid Token
-   │
-   ▼
-Controller
-```
-
----
-
-# 22. Role Authorization
+# 🛡️ Role Authorization
 
 Project memiliki dua role:
 
@@ -663,161 +498,133 @@ user
 admin
 ```
 
-Role authorization digunakan untuk membatasi endpoint tertentu.
+Authentication:
+
+```text
+JWT
+ ↓
+authenticateToken
+ ↓
+req.user
+```
+
+Authorization:
+
+```text
+req.user.role
+ ↓
+roleMiddleware
+ ↓
+Allow / Reject
+```
 
 Contoh:
 
 ```text
 User
- │
- ├── GET categories       ✅
- ├── GET products         ✅
- ├── POST category        ❌
- ├── PUT category         ❌
- └── DELETE category      ❌
+ ├── Login
+ ├── View Product
+ ├── View Category
+ └── Manage Own Cart
 
 Admin
- │
- ├── GET categories       ✅
- ├── POST category        ✅
- ├── PUT category         ✅
- └── DELETE category      ✅
+ ├── Manage Users
+ ├── Manage Products
+ ├── Manage Categories
+ └── Manage Cart
 ```
 
----
-
-# 23. Category API
-
-Base URL:
+Endpoint tertentu membutuhkan role:
 
 ```text
-/api/categories
-```
-
-## Get All Categories
-
-```http
-GET /api/categories
-```
-
-Contoh:
-
-```bash
-GET http://localhost:3000/api/categories
+ADMIN
 ```
 
 ---
 
-## Get Category By ID
+# 👥 User API
 
-```http
-GET /api/categories/:id
+Endpoint:
+
+```text
+GET    /api/users
+GET    /api/users/:id
+DELETE /api/users/:id
 ```
 
-Contoh:
+Endpoint management user tertentu membutuhkan:
 
-```bash
-GET http://localhost:3000/api/categories/1
-```
-
----
-
-## Create Category
-
-```http
-POST /api/categories
-```
-
-Request:
-
-```json
-{
-  "name": "Electronics",
-  "description": "Electronic products"
-}
-```
-
----
-
-## Update Category
-
-```http
-PUT /api/categories/:id
+```text
+Authentication
++
+Admin Authorization
 ```
 
 Contoh:
 
 ```http
-PUT /api/categories/1
-```
-
-Request:
-
-```json
-{
-  "name": "Electronic Devices",
-  "description": "Electronic products and devices"
-}
+GET /api/users
+Authorization: Bearer <ADMIN_TOKEN>
 ```
 
 ---
 
-## Delete Category
+# 📂 Category API
 
-```http
+Available endpoints:
+
+```text
+GET    /api/categories
+GET    /api/categories/:id
+POST   /api/categories
+PUT    /api/categories/:id
 DELETE /api/categories/:id
 ```
 
 Contoh:
 
 ```http
-DELETE /api/categories/1
+GET http://localhost:3000/api/categories
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": []
+}
 ```
 
 ---
 
-# 24. Product API
+# 📦 Product API
 
-Base URL:
+Available endpoints:
 
 ```text
-/api/products
+GET    /api/products
+GET    /api/products/:id
+POST   /api/products
+PUT    /api/products/:id
+DELETE /api/products/:id
 ```
 
-## Get All Products
+Product memiliki relationship dengan category:
 
-```http
-GET /api/products
+```text
+products.category_id
+        │
+        ▼
+categories.id
 ```
 
----
-
-## Get Product By ID
-
-```http
-GET /api/products/:id
-```
-
-Contoh:
-
-```http
-GET /api/products/1
-```
-
----
-
-## Create Product
-
-```http
-POST /api/products
-```
-
-Contoh request:
+Contoh product:
 
 ```json
 {
   "name": "Mechanical Keyboard",
-  "description": "RGB Mechanical Keyboard",
+  "description": "Gaming keyboard",
   "price": 750000,
   "stock": 20,
   "category_id": 1
@@ -826,141 +633,333 @@ Contoh request:
 
 ---
 
-## Update Product
+# 🛒 Cart API
 
-```http
-PUT /api/products/:id
-```
+Cart digunakan untuk menyimpan product yang dipilih oleh user.
 
-Contoh:
-
-```http
-PUT /api/products/1
-```
-
----
-
-## Delete Product
-
-```http
-DELETE /api/products/:id
-```
-
-Contoh:
-
-```http
-DELETE /api/products/1
-```
-
----
-
-# 25. User API
-
-Base URL:
+Available endpoints:
 
 ```text
-/api/users
+GET    /api/cart
+POST   /api/cart/items
+PUT    /api/cart/items/:id
+DELETE /api/cart/items/:id
+DELETE /api/cart
 ```
 
-## Get Users
+Semua endpoint Cart membutuhkan authentication.
+
+---
+
+## Get Cart
 
 ```http
-GET /api/users
+GET /api/cart
+Authorization: Bearer <USER_TOKEN>
 ```
 
 ---
 
-## Get User By ID
+## Add Product to Cart
 
 ```http
-GET /api/users/:id
+POST /api/cart/items
+Authorization: Bearer <USER_TOKEN>
+Content-Type: application/json
 ```
 
----
-
-## Create User
-
-```http
-POST /api/users
-```
-
-Contoh:
+Request:
 
 ```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "Password123",
-  "role": "user"
+  "productId": 1,
+  "quantity": 2
 }
 ```
 
-Password akan disimpan dalam bentuk **hashed password**, bukan plain text.
+User ID tidak dikirim dari request body.
+
+User ID diperoleh dari JWT:
+
+```text
+JWT
+ ↓
+authenticateToken
+ ↓
+req.user.id
+ ↓
+Cart
+```
+
+Hal ini mencegah user memasukkan cart milik user lain.
 
 ---
 
-## Update User
+## Update Cart Item
 
 ```http
-PUT /api/users/:id
+PUT /api/cart/items/:id
+Authorization: Bearer <USER_TOKEN>
+```
+
+Request:
+
+```json
+{
+  "quantity": 3
+}
 ```
 
 ---
 
-## Delete User
+## Remove Cart Item
 
 ```http
-DELETE /api/users/:id
+DELETE /api/cart/items/:id
+Authorization: Bearer <USER_TOKEN>
 ```
 
 ---
 
-# 26. API Authorization Matrix
+## Clear Cart
 
-| Endpoint                     | Authentication | User | Admin |
-| ---------------------------- | -------------: | ---: | ----: |
-| POST `/api/auth/login`       |             ❌ |   ✅ |    ✅ |
-| GET `/api/categories`        |             ✅ |   ✅ |    ✅ |
-| GET `/api/categories/:id`    |             ✅ |   ✅ |    ✅ |
-| POST `/api/categories`       |             ✅ |   ❌ |    ✅ |
-| PUT `/api/categories/:id`    |             ✅ |   ❌ |    ✅ |
-| DELETE `/api/categories/:id` |             ✅ |   ❌ |    ✅ |
-| GET `/api/products`          |             ✅ |   ✅ |    ✅ |
-| GET `/api/products/:id`      |             ✅ |   ✅ |    ✅ |
-| POST `/api/products`         |             ✅ |   ❌ |    ✅ |
-| PUT `/api/products/:id`      |             ✅ |   ❌ |    ✅ |
-| DELETE `/api/products/:id`   |             ✅ |   ❌ |    ✅ |
-
-> Sesuaikan tabel ini apabila authorization pada implementasi endpoint berbeda.
+```http
+DELETE /api/cart
+Authorization: Bearer <USER_TOKEN>
+```
 
 ---
 
-# 27. Manual Testing
+# 🔄 Cart Flow
 
-API dapat dites menggunakan:
+```text
+Register
+   │
+   ▼
+Login
+   │
+   ▼
+JWT Token
+   │
+   ▼
+Get Products
+   │
+   ▼
+Add Product to Cart
+   │
+   ▼
+View Cart
+   │
+   ├── Update Quantity
+   │
+   ├── Remove Item
+   │
+   └── Clear Cart
+```
 
-- Postman
-- Insomnia
-- Bruno
-- curl
-- Browser untuk GET endpoint sederhana
+---
+
+# 🌱 Database Seed
+
+Project menyediakan:
+
+```text
+database/schema.sql
+database/seed.sql
+```
+
+## schema.sql
+
+Digunakan untuk membuat struktur database:
+
+```text
+categories
+products
+users
+carts
+cart_items
+```
+
+## seed.sql
+
+Digunakan untuk memasukkan initial/test data.
+
+Contoh:
+
+```text
+Categories
+Products
+Users
+```
+
+Seed data membantu seluruh anggota team menggunakan database dengan kondisi awal yang konsisten.
+
+---
+
+# ⚙️ Prerequisites
+
+Sebelum menjalankan project, install:
+
+### Node.js
 
 Recommended:
 
 ```text
-Postman
+Node.js 20+
+```
+
+Check:
+
+```bash
+node --version
+```
+
+```bash
+npm --version
+```
+
+### PostgreSQL
+
+Check:
+
+```bash
+psql --version
+```
+
+### Git
+
+Check:
+
+```bash
+git --version
 ```
 
 ---
 
-# 28. Recommended Testing Flow
+# 🚀 Installation
 
-Untuk testing manual, jalankan berdasarkan urutan berikut.
+Clone repository:
 
-### Step 1 — Health Check
+```bash
+git clone <REPOSITORY_URL>
+```
+
+Masuk ke project:
+
+```bash
+cd backend-api-store
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+> `npm install` akan membaca `package.json` dan menginstall seluruh dependency yang dibutuhkan. Tidak perlu menjalankan `npm install pg bcrypt jsonwebtoken` secara manual jika repository sudah memiliki `package.json` dan `package-lock.json`.
+
+---
+
+# 🔧 Environment Setup
+
+Buat file:
+
+```text
+.env
+```
+
+Contoh:
+
+```env
+PORT=3000
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=backend_api
+DB_USER=postgres
+DB_PASSWORD=your_password
+
+JWT_SECRET=backend-api-store-super-secret-key
+```
+
+Sesuaikan:
+
+```text
+DB_HOST
+DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+```
+
+dengan konfigurasi PostgreSQL masing-masing developer.
+
+---
+
+# 🗄️ Database Setup
+
+## Step 1 — Create Database
+
+Buka pgAdmin atau DBeaver.
+
+Create database:
+
+```text
+backend_api
+```
+
+---
+
+## Step 2 — Create Tables
+
+Jalankan:
+
+```text
+database/schema.sql
+```
+
+Script akan membuat:
+
+```text
+categories
+products
+users
+carts
+cart_items
+```
+
+---
+
+## Step 3 — Insert Seed Data
+
+Jalankan:
+
+```text
+database/seed.sql
+```
+
+Setelah selesai, database siap digunakan.
+
+---
+
+# ▶️ Running Application
+
+Development:
+
+```bash
+npm run dev
+```
+
+Server:
+
+```text
+http://localhost:3000
+```
+
+Health check:
 
 ```http
-GET /
+GET http://localhost:3000/
 ```
 
 Expected:
@@ -974,100 +973,152 @@ Expected:
 
 ---
 
-### Step 2 — Login
+# 📜 NPM Scripts
 
-```http
-POST /api/auth/login
+Contoh script yang digunakan:
+
+```bash
+npm run dev
 ```
 
-Simpan JWT token.
+Development server menggunakan Node.js watch mode.
 
----
+Lint:
 
-### Step 3 — Get Categories
-
-```http
-GET /api/categories
+```bash
+npm run lint
 ```
 
-Gunakan:
+Format:
 
-```http
-Authorization: Bearer <TOKEN>
+```bash
+npm run format
 ```
 
----
+Check format:
 
-### Step 4 — Get Category
-
-```http
-GET /api/categories/1
+```bash
+npm run format:check
 ```
 
----
+Testing:
 
-### Step 5 — Create Category
-
-Login sebagai admin.
-
-Kemudian:
-
-```http
-POST /api/categories
+```bash
+npx jest
 ```
 
----
+atau:
 
-### Step 6 — Update Category
-
-```http
-PUT /api/categories/1
+```bash
+npx jest --runInBand
 ```
 
 ---
 
-### Step 7 — Delete Category
+# 🧪 API Testing
 
-```http
-DELETE /api/categories/1
-```
-
----
-
-### Step 8 — Product CRUD
-
-Lakukan:
+Project menggunakan:
 
 ```text
-GET
-GET by ID
-POST
-PUT
-DELETE
+Jest
++
+Supertest
+```
+
+Struktur testing:
+
+```text
+tests/
+│
+├── auth/
+│   ├── register.test.js
+│   └── login.test.js
+│
+├── categories/
+│   └── category.test.js
+│
+├── products/
+│   └── product.test.js
+│
+├── users/
+│   └── user.test.js
+│
+└── cart/
+    └── cart.test.js
+```
+
+Testing mencakup:
+
+- Positive Test
+- Negative Test
+- Validation
+- Authentication
+- Authorization
+- CRUD
+- Database-related behavior
+
+---
+
+# 🧪 Recommended Manual Testing Flow
+
+Urutan testing manual yang direkomendasikan:
+
+```text
+1. Health Check
+       ↓
+2. Register User
+       ↓
+3. Login User
+       ↓
+4. Get User
+       ↓
+5. Get Categories
+       ↓
+6. Get Products
+       ↓
+7. Add Product to Cart
+       ↓
+8. Get Cart
+       ↓
+9. Update Cart Item
+       ↓
+10. Remove Cart Item
+       ↓
+11. Clear Cart
+```
+
+Admin testing:
+
+```text
+1. Login Admin
+       ↓
+2. Get Users
+       ↓
+3. Delete User
+       ↓
+4. Manage Categories
+       ↓
+5. Manage Products
 ```
 
 ---
 
-# 29. HTTP Status Code
+# 📊 HTTP Status Codes
 
 API menggunakan HTTP status code sesuai kondisi request.
 
-| Status | Meaning                  |
-| -----: | ------------------------ |
-|    200 | Request berhasil         |
-|    201 | Resource berhasil dibuat |
-|    400 | Bad Request              |
-|    401 | Unauthorized             |
-|    403 | Forbidden                |
-|    404 | Resource tidak ditemukan |
-|    409 | Conflict                 |
-|    500 | Internal Server Error    |
+| Status | Meaning                        |
+| -----: | ------------------------------ |
+|    200 | Request berhasil               |
+|    201 | Resource berhasil dibuat       |
+|    400 | Bad Request / Validation Error |
+|    401 | Unauthorized / Token Invalid   |
+|    403 | Forbidden / Permission Denied  |
+|    404 | Resource Not Found             |
+|    409 | Conflict                       |
+|    500 | Internal Server Error          |
 
----
-
-# 30. Error Response
-
-Format error response:
+Contoh:
 
 ```json
 {
@@ -1076,39 +1127,85 @@ Format error response:
 }
 ```
 
-Untuk error tertentu dapat mengandung:
-
-```json
-{
-  "success": false,
-  "message": "Failed to fetch category",
-  "error": "Error detail"
-}
-```
-
 ---
 
-# 31. Git Workflow
+# 🔒 Security
 
-Setelah clone repository:
+Jangan commit:
 
-```bash
-git checkout -b feature/nama-feature
+```text
+.env
+```
+
+ke Git.
+
+Gunakan:
+
+```text
+.env.example
 ```
 
 Contoh:
 
-```bash
-git checkout -b feature/product-api
+```env
+PORT=3000
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=backend_api
+DB_USER=postgres
+DB_PASSWORD=
+
+JWT_SECRET=
 ```
 
-Setelah selesai:
+Password user harus disimpan menggunakan hashing:
+
+```text
+bcrypt
+```
+
+Bukan plaintext.
+
+Jangan menyimpan:
+
+- Database password
+- JWT secret production
+- Access token
+- API secret
+- Credential
+
+di repository.
+
+---
+
+# 🌳 Git Workflow
+
+Recommended workflow:
+
+```text
+main
+ │
+ ├── feature/authentication
+ ├── feature/user
+ ├── feature/category
+ ├── feature/product
+ └── feature/cart
+```
+
+Membuat branch:
+
+```bash
+git checkout -b feature/cart
+```
+
+Check perubahan:
 
 ```bash
 git status
 ```
 
-Kemudian:
+Add:
 
 ```bash
 git add .
@@ -1117,276 +1214,58 @@ git add .
 Commit:
 
 ```bash
-git commit -m "feat: add product CRUD API"
+git commit -m "feat: implement cart API"
 ```
 
 Push:
 
 ```bash
-git push origin feature/product-api
+git push origin feature/cart
 ```
 
-Kemudian buat Pull Request ke branch utama.
-
----
-
-# 32. Important Git Rules
-
-Jangan commit:
+Kemudian buat Pull Request ke:
 
 ```text
-.env
-node_modules/
-```
-
-Pastikan `.gitignore` memiliki:
-
-```gitignore
-node_modules/
-.env
-.env.*
-!.env.example
-coverage/
-logs/
-*.log
+main
 ```
 
 ---
 
-# 33. Team Setup
+# 👨‍💻 Team Setup
 
-Setiap developer memiliki environment database sendiri.
-
-Contoh:
-
-```text
-Developer A
-     │
-     ▼
-PostgreSQL
-backend_api
-
-Developer B
-     │
-     ▼
-PostgreSQL
-backend_api
-
-Developer C
-     │
-     ▼
-PostgreSQL
-backend_api
-```
-
-Masing-masing developer wajib membuat `.env` sendiri.
-
-Jangan membagikan:
-
-```text
-DB_PASSWORD
-JWT_SECRET
-```
-
-melalui Git repository.
-
----
-
-# 34. Troubleshooting
-
-## Problem: Cannot connect to PostgreSQL
-
-Error:
-
-```text
-ECONNREFUSED
-```
-
-Check:
-
-```text
-PostgreSQL service
-```
-
-Kemudian check `.env`:
-
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=backend_api
-DB_USER=postgres
-DB_PASSWORD=your_password
-```
-
----
-
-## Problem: Cannot find module
-
-Contoh:
-
-```text
-ERR_MODULE_NOT_FOUND
-```
-
-Jalankan:
-
-```bash
-npm install
-```
-
-Pastikan nama file dan import path benar.
-
-Contoh:
-
-```javascript
-import categoryRepository from '../repositories/category.repository.js';
-```
-
-Perhatikan ekstensi:
-
-```text
-.js
-```
-
-Karena project menggunakan:
-
-```json
-"type": "module"
-```
-
----
-
-## Problem: Port already in use
-
-Jika port `3000` digunakan aplikasi lain:
-
-```env
-PORT=3001
-```
-
-Kemudian:
-
-```bash
-npm run dev
-```
-
----
-
-# 35. Development Guidelines
-
-Sebelum melakukan commit:
-
-```bash
-npm run lint
-```
-
-Kemudian:
-
-```bash
-npm run format:check
-```
-
-Jika formatting bermasalah:
-
-```bash
-npm run format
-```
-
-Kemudian ulangi:
-
-```bash
-npm run lint
-npm run format:check
-```
-
----
-
-# 36. Development Flow
-
-Recommended development flow:
-
-```text
-1. Clone repository
-       ↓
-2. npm install
-       ↓
-3. Setup PostgreSQL
-       ↓
-4. Create database
-       ↓
-5. Create .env
-       ↓
-6. Configure database
-       ↓
-7. Run npm run dev
-       ↓
-8. Test GET /
-       ↓
-9. Test Login
-       ↓
-10. Test JWT
-       ↓
-11. Test CRUD
-       ↓
-12. npm run lint
-       ↓
-13. npm run format:check
-       ↓
-14. Commit
-       ↓
-15. Push branch
-       ↓
-16. Pull Request
-```
-
----
-
-# 37. Quick Start
-
-Untuk developer yang sudah familiar dengan project:
+Team member cukup melakukan:
 
 ```bash
 git clone <REPOSITORY_URL>
+```
 
+```bash
 cd backend-api-store
+```
 
+```bash
 npm install
 ```
 
-Buat:
-
-```text
-.env
-```
-
-Isi:
-
-```env
-PORT=3000
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=backend_api
-DB_USER=postgres
-DB_PASSWORD=your_password
-JWT_SECRET=your_super_secret_key
-JWT_EXPIRES_IN=1h
-```
-
-Pastikan PostgreSQL aktif dan database sudah tersedia.
-
 Kemudian:
 
-```bash
-npm run dev
-```
-
-Open:
-
 ```text
-http://localhost:3000
+1. Install PostgreSQL
+2. Create database backend_api
+3. Run schema.sql
+4. Run seed.sql
+5. Create .env
+6. Configure PostgreSQL credentials
+7. Run npm run dev
 ```
 
-Expected:
+Test:
+
+```http
+GET http://localhost:3000/
+```
+
+Jika mendapatkan:
 
 ```json
 {
@@ -1395,74 +1274,138 @@ Expected:
 }
 ```
 
+berarti backend berhasil dijalankan.
+
 ---
 
-# 38. Project Status
+# 🧭 API Summary
 
-Current development phases:
+## Authentication
 
 ```text
-Phase 1
-├── Node.js Project Setup
-├── Express.js
-├── PostgreSQL
-└── Environment Configuration
+POST /api/auth/register
+POST /api/auth/login
+```
 
-Phase 2
-├── PostgreSQL Connection
-├── Database Repository
-├── Category CRUD
-└── Product CRUD
+## Users
 
-Phase 3
-├── Authentication
-├── Password Hashing
-├── JWT Login
-├── JWT Middleware
-└── Role Authorization
+```text
+GET    /api/users
+GET    /api/users/:id
+DELETE /api/users/:id
+```
 
-Phase 4
-└── API Development / Extension
+## Categories
+
+```text
+GET    /api/categories
+GET    /api/categories/:id
+POST   /api/categories
+PUT    /api/categories/:id
+DELETE /api/categories/:id
+```
+
+## Products
+
+```text
+GET    /api/products
+GET    /api/products/:id
+POST   /api/products
+PUT    /api/products/:id
+DELETE /api/products/:id
+```
+
+## Cart
+
+```text
+GET    /api/cart
+POST   /api/cart/items
+PUT    /api/cart/items/:id
+DELETE /api/cart/items/:id
+DELETE /api/cart
 ```
 
 ---
 
-# 39. Future Improvements
+# 🎯 Project Learning Goals
 
-Planned improvements:
+Project ini digunakan untuk mempraktikkan:
 
-- [ ] Input Validation
-- [ ] Centralized Error Handler
-- [ ] Pagination
-- [ ] Search & Filtering
-- [ ] API Documentation dengan Swagger/OpenAPI
-- [ ] Unit Testing
-- [ ] Integration Testing
-- [ ] API Automation Testing
-- [ ] Jest
-- [ ] SuperTest
-- [ ] Faker.js
-- [ ] API Test Report
-- [ ] Docker
-- [ ] CI/CD dengan GitHub Actions
-- [ ] Database Migration
-- [ ] Refresh Token
-- [ ] Rate Limiting
-- [ ] Request Logging
-- [ ] Security Hardening
+## Backend
+
+- Node.js
+- Express.js
+- REST API
+- PostgreSQL
+- `pg`
+- Repository Pattern
+- Service Layer
+- Controller Layer
+- Middleware
+
+## Authentication
+
+- Registration
+- Login
+- bcrypt
+- JWT
+- Authentication Middleware
+- Role Authorization
+
+## E-Commerce
+
+```text
+User
+ ↓
+Authentication
+ ↓
+Category
+ ↓
+Product
+ ↓
+Cart
+```
+
+## QA & Automation
+
+- API Testing
+- CRUD Testing
+- Authentication Testing
+- Authorization Testing
+- Negative Testing
+- Validation Testing
+- Database Validation
+- Jest
+- Supertest
+- ESLint
+- Prettier
 
 ---
 
-# 40. Author
+# 🚧 Future Improvements
 
-Backend API Store
+Fitur yang dapat dikembangkan di masa depan:
 
-Built with:
+- Request Validation menggunakan Joi / Zod
+- Pagination
+- Product Search
+- Product Filtering
+- Product Sorting
+- Centralized Error Handler
+- API Logging
+- Swagger / OpenAPI
+- Jest Coverage
+- Database Transaction
+- Database Indexing
+- Docker
+- Docker Compose
+- GitHub Actions
+- CI/CD Pipeline
+- API Automation Reporting
+- Allure Report
 
-```text
-Node.js
-Express.js
-PostgreSQL
-JWT
-JavaScript
-```
+---
+
+# 📄 License
+
+This project is intended for learning, development, and API automation testing purposes.
