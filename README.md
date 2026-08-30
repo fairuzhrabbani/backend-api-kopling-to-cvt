@@ -1,4 +1,4 @@
-# Backend API Store
+# Backend API Store - from KOPLING to CVT
 
 RESTful Backend API untuk aplikasi Store yang dibangun menggunakan **Node.js + Express.js + PostgreSQL**.
 
