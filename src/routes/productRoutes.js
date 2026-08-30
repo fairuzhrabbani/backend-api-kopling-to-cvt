@@ -6,7 +6,7 @@ import {
   createProductController,
   updateProductController,
   deleteProductController,
-} from '../controller/productController.js';
+} from '../controllers/productController.js';
 
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { roleMiddleware } from '../middleware/roleMiddleware.js';

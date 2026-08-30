@@ -6,7 +6,7 @@ import {
   createCategoryController,
   updateCategoryController,
   deleteCategoryController,
-} from '../controller/categoryController.js';
+} from '../controllers/categoryController.js';
 
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { roleMiddleware } from '../middleware/roleMiddleware.js';
