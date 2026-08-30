@@ -92,3 +92,15 @@ export const createUser = async ({ name, email, password }) => {
 
   return result.rows[0];
 };
+
+export const deleteUser = async (id) => {
+  const query = `
+    DELETE FROM users
+    WHERE id = $1
+    RETURNING id, name, email, role
+  `;
+
+  const result = await pool.query(query, [id]);
+
+  return result.rows[0];
+};
