@@ -1,22 +1,43 @@
-import eslint from '@eslint/js';
+import js from '@eslint/js';
+import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules/**', 'coverage/**', 'dist/**'],
+    ignores: ['node_modules/', 'coverage/', 'dist/', 'build/', 'reports/'],
   },
 
-  eslint.configs.recommended,
+  js.configs.recommended,
 
   {
     files: ['**/*.js'],
+
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+
+      globals: {
+        ...globals.node,
+      },
     },
 
     rules: {
-      'no-unused-vars': 'warn',
+      // Variables
+      'no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+        },
+      ],
+
+      // Console is allowed for backend/server-side code
       'no-console': 'off',
+
+      // Recommended code quality
+      'no-undef': 'error',
+      'no-unreachable': 'error',
+      'no-constant-condition': 'error',
     },
   },
 ];

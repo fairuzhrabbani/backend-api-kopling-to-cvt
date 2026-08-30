@@ -4,15 +4,15 @@ RESTful Backend API untuk aplikasi Store yang dibangun menggunakan **Node.js + E
 
 Project ini dibuat sebagai backend service yang menyediakan:
 
-* User Management
-* Authentication menggunakan JWT
-* Role Authorization (`user` / `admin`)
-* Category Management
-* Product Management
-* PostgreSQL Database
-* Repository Pattern
-* Controller & Route Separation
-* Environment Configuration
+- User Management
+- Authentication menggunakan JWT
+- Role Authorization (`user` / `admin`)
+- Category Management
+- Product Management
+- PostgreSQL Database
+- Repository Pattern
+- Controller & Route Separation
+- Environment Configuration
 
 ---
 
@@ -156,9 +156,9 @@ Pastikan PostgreSQL sudah terinstall dan service PostgreSQL sedang berjalan.
 
 Tools yang dapat digunakan untuk mengelola database:
 
-* pgAdmin
-* DBeaver
-* PostgreSQL CLI
+- pgAdmin
+- DBeaver
+- PostgreSQL CLI
 
 ---
 
@@ -447,12 +447,12 @@ Database connection failed
 
 Periksa:
 
-* PostgreSQL service
-* DB_HOST
-* DB_PORT
-* DB_NAME
-* DB_USER
-* DB_PASSWORD
+- PostgreSQL service
+- DB_HOST
+- DB_PORT
+- DB_NAME
+- DB_USER
+- DB_PASSWORD
 
 ---
 
@@ -919,17 +919,17 @@ DELETE /api/users/:id
 
 | Endpoint                     | Authentication | User | Admin |
 | ---------------------------- | -------------: | ---: | ----: |
-| POST `/api/auth/login`       |              ❌ |    ✅ |     ✅ |
-| GET `/api/categories`        |              ✅ |    ✅ |     ✅ |
-| GET `/api/categories/:id`    |              ✅ |    ✅ |     ✅ |
-| POST `/api/categories`       |              ✅ |    ❌ |     ✅ |
-| PUT `/api/categories/:id`    |              ✅ |    ❌ |     ✅ |
-| DELETE `/api/categories/:id` |              ✅ |    ❌ |     ✅ |
-| GET `/api/products`          |              ✅ |    ✅ |     ✅ |
-| GET `/api/products/:id`      |              ✅ |    ✅ |     ✅ |
-| POST `/api/products`         |              ✅ |    ❌ |     ✅ |
-| PUT `/api/products/:id`      |              ✅ |    ❌ |     ✅ |
-| DELETE `/api/products/:id`   |              ✅ |    ❌ |     ✅ |
+| POST `/api/auth/login`       |             ❌ |   ✅ |    ✅ |
+| GET `/api/categories`        |             ✅ |   ✅ |    ✅ |
+| GET `/api/categories/:id`    |             ✅ |   ✅ |    ✅ |
+| POST `/api/categories`       |             ✅ |   ❌ |    ✅ |
+| PUT `/api/categories/:id`    |             ✅ |   ❌ |    ✅ |
+| DELETE `/api/categories/:id` |             ✅ |   ❌ |    ✅ |
+| GET `/api/products`          |             ✅ |   ✅ |    ✅ |
+| GET `/api/products/:id`      |             ✅ |   ✅ |    ✅ |
+| POST `/api/products`         |             ✅ |   ❌ |    ✅ |
+| PUT `/api/products/:id`      |             ✅ |   ❌ |    ✅ |
+| DELETE `/api/products/:id`   |             ✅ |   ❌ |    ✅ |
 
 > Sesuaikan tabel ini apabila authorization pada implementasi endpoint berbeda.
 
@@ -939,11 +939,11 @@ DELETE /api/users/:id
 
 API dapat dites menggunakan:
 
-* Postman
-* Insomnia
-* Bruno
-* curl
-* Browser untuk GET endpoint sederhana
+- Postman
+- Insomnia
+- Bruno
+- curl
+- Browser untuk GET endpoint sederhana
 
 Recommended:
 
@@ -1431,25 +1431,25 @@ Phase 4
 
 Planned improvements:
 
-* [ ] Input Validation
-* [ ] Centralized Error Handler
-* [ ] Pagination
-* [ ] Search & Filtering
-* [ ] API Documentation dengan Swagger/OpenAPI
-* [ ] Unit Testing
-* [ ] Integration Testing
-* [ ] API Automation Testing
-* [ ] Jest
-* [ ] SuperTest
-* [ ] Faker.js
-* [ ] API Test Report
-* [ ] Docker
-* [ ] CI/CD dengan GitHub Actions
-* [ ] Database Migration
-* [ ] Refresh Token
-* [ ] Rate Limiting
-* [ ] Request Logging
-* [ ] Security Hardening
+- [ ] Input Validation
+- [ ] Centralized Error Handler
+- [ ] Pagination
+- [ ] Search & Filtering
+- [ ] API Documentation dengan Swagger/OpenAPI
+- [ ] Unit Testing
+- [ ] Integration Testing
+- [ ] API Automation Testing
+- [ ] Jest
+- [ ] SuperTest
+- [ ] Faker.js
+- [ ] API Test Report
+- [ ] Docker
+- [ ] CI/CD dengan GitHub Actions
+- [ ] Database Migration
+- [ ] Refresh Token
+- [ ] Rate Limiting
+- [ ] Request Logging
+- [ ] Security Hardening
 
 ---
 

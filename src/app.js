@@ -1,4 +1,5 @@
 import express from 'express';
+import pool from './config/database.js';
 
 /* 
 app adalah instance dari Express.
