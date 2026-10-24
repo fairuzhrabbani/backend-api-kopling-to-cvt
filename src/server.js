@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 import { testDatabaseConnection } from './config/database.js';
 import categoryRoutes from './routes/categoryRoutes.js';
@@ -12,9 +13,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
+
+// Middleware
 app.use(express.json());
 
 // Health check
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Backend API Store is running',
+  });
+});
+
+// Root endpoint
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
