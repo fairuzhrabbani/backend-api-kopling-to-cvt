@@ -23,3 +23,7 @@ coverage/
 # Build
 dist/
 build/
+
+# Uploaded product images
+uploads/products/*
+!uploads/products/.gitkeep
